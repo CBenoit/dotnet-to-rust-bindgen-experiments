@@ -27,34 +27,28 @@ Ln/az3v5DdgrNoAO60zK1zYAmekLil7pgba/jBLPeAQ2fZVgFxttKv33nUnUBzKA
 Od8i323fM5dQS1qQpBjBc/5fPw==
 -----END CERTIFICATE-----";
 
-    /* [Fact] */
-    /* public void Parse() */
-    /* { */
-    /*     Pem pem = new Pem(certPemRepr); */
-    /*     Assert.Equal("CERTIFICATE", pem.Label); */
-    /*     Assert.Equal(835, pem.Data.Length); */
-    /*     Assert.Equal(certPemRepr, pem.ToRepr()); */
-    /* } */
-
-    /* [Fact] */
-    /* public void Smoke() */
-    /* { */
-    /*     Pem fromReprPem = new Pem(certPemRepr); */
-    /*     Pem fromDataPem = new Pem(fromReprPem.Label, fromReprPem.Data); */
-    /*     Assert.Equal(certPemRepr, fromDataPem.ToRepr()); */
-    /* } */
+    [Fact]
+    public void Parse()
+    {
+        PickyPem pem = PickyPem.Parse(certPemRepr);
+        Assert.Equal("CERTIFICATE", pem.ToLabel());
+        Assert.Equal(835UL, pem.DataLength());
+        Assert.Equal(certPemRepr, pem.ToRepr());
+    }
 
     [Fact]
-    public void Error() {
-        byte[] path = Utils.StringToUtf8("test");
+    public void Smoke()
+    {
+        PickyPem fromReprPem = PickyPem.Parse(certPemRepr);
+        // TODO: need support for returning buffer of bytes
+        // PickyPem fromDataPem = PickyPem.New(fromReprPem.ToLabel(), fromReprPem.ToData());
+        // Assert.Equal(certPemRepr, fromDataPem.ToRepr());
+    }
 
-        unsafe {
-            fixed (byte* pathPtr = path)
-            {
-                nuint len = (nuint) path.Length;
-                Raw.pem_ffi_ResultBoxPickyPemBoxPickyError result = Raw.PickyPem.load_from_file((sbyte*) pathPtr, len);
-                Assert.False(result.isOk);
-            }
-        }
+    [Fact]
+    public void LoadFromFileFailure()
+    {
+        Action act = () => PickyPem.LoadFromFile("path/to/nowhere");
+        Assert.Throws<PickyException>(act);
     }
 }

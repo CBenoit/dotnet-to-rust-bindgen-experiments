@@ -2,11 +2,85 @@
 
 #pragma warning disable 0105
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Devolutions.Picky.Diplomat;
 #pragma warning restore 0105
 
 namespace Devolutions.Picky;
 
+/// <summary>
+/// Stringified Picky error.
+/// </summary>
+public class PickyError
+{
+    private unsafe Raw.PickyError* _inner;
+
+    /// <summary>
+    /// Creates a managed PickyError from a raw handle.
+    /// </summary>
+    /// 
+    /// Safety: you should not build two managed objects using the same raw handle (may causes use-after-free and double-free).
+    public unsafe PickyError(Raw.PickyError* handle)
+    {
+        _inner = handle;
+    }
+
+    /// <summary>
+    /// Returns the error as a string.
+    /// </summary>
+    public void ToDisplay(DiplomatWriteable writeable)
+    {
+        unsafe
+        {
+            Raw.PickyError.ToDisplay(_inner, &writeable);
+        }
+    }
+
+    /// <summary>
+    /// Returns the error as a string.
+    /// </summary>
+    public string ToDisplay()
+    {
+        unsafe
+        {
+            DiplomatWriteable writeable = new DiplomatWriteable();
+            Raw.PickyError.ToDisplay(_inner, &writeable);
+            string retVal = writeable.ToUnicode();
+            writeable.FreeBuffer();
+            return retVal;
+        }
+    }
+
+    /// <summary>
+    /// Prints the error string.
+    /// </summary>
+    public void Print()
+    {
+        unsafe
+        {
+            Raw.PickyError.Print(_inner);
+        }
+    }
+
+    /// <summary>
+    /// Returns the underlying raw handle.
+    /// </summary>
+    public unsafe Raw.PickyError* AsFFI()
+    {
+        return _inner;
+    }
+
+    ~PickyError()
+    {
+        unsafe
+        {
+            if (_inner == null)
+            {
+                return;
+            }
+
+            Raw.PickyError.Destroy(_inner);
+            _inner = null;
+        }
+    }
+}

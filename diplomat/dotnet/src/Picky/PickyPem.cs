@@ -2,11 +2,218 @@
 
 #pragma warning disable 0105
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Devolutions.Picky.Diplomat;
 #pragma warning restore 0105
 
 namespace Devolutions.Picky;
 
+/// <summary>
+/// Picky PEM object.
+/// </summary>
+public class PickyPem
+{
+    private unsafe Raw.PickyPem* _inner;
+
+    /// <summary>
+    /// Creates a managed PickyPem from a raw handle.
+    /// </summary>
+    /// 
+    /// Safety: you should not build two managed objects using the same raw handle (may causes use-after-free and double-free).
+    public unsafe PickyPem(Raw.PickyPem* handle)
+    {
+        _inner = handle;
+    }
+
+    /// <summary>
+    /// Creates a PEM object with the given label and data.
+    /// </summary>
+    public static PickyPem New(string label, byte[] data)
+    {
+        byte[] labelBuf = DiplomatUtils.StringToUtf8(label);
+        nuint dataLength = (nuint) data.Length;
+        nuint labelBufLength = (nuint) labelBuf.Length;
+        unsafe
+        {
+            fixed (byte* dataPtr = data)
+            {
+                fixed (byte* labelBufPtr = labelBuf)
+                {
+                    Raw.PemFfiResultBoxPickyPemBoxPickyError result = Raw.PickyPem.New(labelBufPtr, labelBufLength, dataPtr, dataLength);
+                    if (!result.isOk)
+                    {
+                        throw new PickyException(new PickyError(result.Err));
+                    }
+                    Raw.PickyPem* retVal = result.Ok;
+                    return new PickyPem(retVal);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Loads a PEM from the filesystem.
+    /// </summary>
+    public static PickyPem LoadFromFile(string path)
+    {
+        byte[] pathBuf = DiplomatUtils.StringToUtf8(path);
+        nuint pathBufLength = (nuint) pathBuf.Length;
+        unsafe
+        {
+            fixed (byte* pathBufPtr = pathBuf)
+            {
+                Raw.PemFfiResultBoxPickyPemBoxPickyError result = Raw.PickyPem.LoadFromFile(pathBufPtr, pathBufLength);
+                if (!result.isOk)
+                {
+                    throw new PickyException(new PickyError(result.Err));
+                }
+                Raw.PickyPem* retVal = result.Ok;
+                return new PickyPem(retVal);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Saves this PEM object to the filesystem.
+    /// </summary>
+    public void SaveToFile(string path)
+    {
+        byte[] pathBuf = DiplomatUtils.StringToUtf8(path);
+        nuint pathBufLength = (nuint) pathBuf.Length;
+        unsafe
+        {
+            fixed (byte* pathBufPtr = pathBuf)
+            {
+                Raw.PemFfiResultVoidBoxPickyError result = Raw.PickyPem.SaveToFile(_inner, pathBufPtr, pathBufLength);
+                if (!result.isOk)
+                {
+                    throw new PickyException(new PickyError(result.Err));
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Parses a PEM-encoded string representation.
+    /// </summary>
+    public static PickyPem Parse(string input)
+    {
+        byte[] inputBuf = DiplomatUtils.StringToUtf8(input);
+        nuint inputBufLength = (nuint) inputBuf.Length;
+        unsafe
+        {
+            fixed (byte* inputBufPtr = inputBuf)
+            {
+                Raw.PemFfiResultBoxPickyPemBoxPickyError result = Raw.PickyPem.Parse(inputBufPtr, inputBufLength);
+                if (!result.isOk)
+                {
+                    throw new PickyException(new PickyError(result.Err));
+                }
+                Raw.PickyPem* retVal = result.Ok;
+                return new PickyPem(retVal);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Returns the length of the data contained by this PEM object.
+    /// </summary>
+    public ulong DataLength()
+    {
+        unsafe
+        {
+            ulong retVal = Raw.PickyPem.DataLength(_inner);
+            return retVal;
+        }
+    }
+
+    /// <summary>
+    /// Returns the label of this PEM object.
+    /// </summary>
+    public void ToLabel(DiplomatWriteable writeable)
+    {
+        unsafe
+        {
+            Raw.PemFfiResultVoidBoxPickyError result = Raw.PickyPem.ToLabel(_inner, &writeable);
+            if (!result.isOk)
+            {
+                throw new PickyException(new PickyError(result.Err));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Returns the label of this PEM object.
+    /// </summary>
+    public string ToLabel()
+    {
+        unsafe
+        {
+            DiplomatWriteable writeable = new DiplomatWriteable();
+            Raw.PemFfiResultVoidBoxPickyError result = Raw.PickyPem.ToLabel(_inner, &writeable);
+            if (!result.isOk)
+            {
+                throw new PickyException(new PickyError(result.Err));
+            }
+            string retVal = writeable.ToUnicode();
+            writeable.FreeBuffer();
+            return retVal;
+        }
+    }
+
+    /// <summary>
+    /// Returns the string representation of this PEM object.
+    /// </summary>
+    public void ToRepr(DiplomatWriteable writeable)
+    {
+        unsafe
+        {
+            Raw.PemFfiResultVoidBoxPickyError result = Raw.PickyPem.ToRepr(_inner, &writeable);
+            if (!result.isOk)
+            {
+                throw new PickyException(new PickyError(result.Err));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Returns the string representation of this PEM object.
+    /// </summary>
+    public string ToRepr()
+    {
+        unsafe
+        {
+            DiplomatWriteable writeable = new DiplomatWriteable();
+            Raw.PemFfiResultVoidBoxPickyError result = Raw.PickyPem.ToRepr(_inner, &writeable);
+            if (!result.isOk)
+            {
+                throw new PickyException(new PickyError(result.Err));
+            }
+            string retVal = writeable.ToUnicode();
+            writeable.FreeBuffer();
+            return retVal;
+        }
+    }
+
+    /// <summary>
+    /// Returns the underlying raw handle.
+    /// </summary>
+    public unsafe Raw.PickyPem* AsFFI()
+    {
+        return _inner;
+    }
+
+    ~PickyPem()
+    {
+        unsafe
+        {
+            if (_inner == null)
+            {
+                return;
+            }
+
+            Raw.PickyPem.Destroy(_inner);
+            _inner = null;
+        }
+    }
+}

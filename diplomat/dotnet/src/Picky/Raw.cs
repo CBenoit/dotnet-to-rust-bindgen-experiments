@@ -2,106 +2,144 @@
 
 #pragma warning disable 0105
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Devolutions.Picky.Diplomat;
 #pragma warning restore 0105
 
 namespace Devolutions.Picky.Raw;
 
-
+/// <summary>
+/// Stringified Picky error.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public unsafe class PickyError
+public struct PickyError
 {
-    public const string NativeLib = "picky";
+    private const string NativeLib = "picky";
 
-    private IntPtr _inner;
+    /// <summary>
+    /// Returns the error as a string.
+    /// </summary>
+    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyError_to_display", ExactSpelling = true)]
+    public static unsafe extern void ToDisplay(PickyError* self, DiplomatWriteable* writeable);
 
-    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyError_display", ExactSpelling = true)]
-    public static extern void display(PickyError self, DiplomatWriteable writeable);
-
+    /// <summary>
+    /// Prints the error string.
+    /// </summary>
     [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyError_print", ExactSpelling = true)]
-    public static extern void print(PickyError self);
+    public static unsafe extern void Print(PickyError* self);
 
     [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyError_destroy", ExactSpelling = true)]
-    public static extern void destroy(PickyError self);
+    public static unsafe extern void Destroy(PickyError* self);
 }
 
+/// <summary>
+/// Picky PEM object.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public unsafe class PickyPem
+public struct PickyPem
 {
-    public const string NativeLib = "picky";
+    private const string NativeLib = "picky";
 
-    private IntPtr _inner;
+    /// <summary>
+    /// Creates a PEM object with the given label and data.
+    /// </summary>
+    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPem_new", ExactSpelling = true)]
+    public static unsafe extern PemFfiResultBoxPickyPemBoxPickyError New(byte* label, nuint labelSz, byte* data, nuint dataSz);
 
+    /// <summary>
+    /// Loads a PEM from the filesystem.
+    /// </summary>
     [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPem_load_from_file", ExactSpelling = true)]
-    public static extern pem_ffi_ResultBoxPickyPemBoxPickyError load_from_file(sbyte* path_data, nuint path_len);
+    public static unsafe extern PemFfiResultBoxPickyPemBoxPickyError LoadFromFile(byte* path, nuint pathSz);
 
+    /// <summary>
+    /// Saves this PEM object to the filesystem.
+    /// </summary>
+    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPem_save_to_file", ExactSpelling = true)]
+    public static unsafe extern PemFfiResultVoidBoxPickyError SaveToFile(PickyPem* self, byte* path, nuint pathSz);
+
+    /// <summary>
+    /// Parses a PEM-encoded string representation.
+    /// </summary>
     [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPem_parse", ExactSpelling = true)]
-    public static extern pem_ffi_ResultBoxPickyPemBoxPickyError parse(sbyte* input_data, nuint input_len);
+    public static unsafe extern PemFfiResultBoxPickyPemBoxPickyError Parse(byte* input, nuint inputSz);
 
-    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPem_create", ExactSpelling = true)]
-    public static extern pem_ffi_ResultBoxPickyPemBoxPickyError create(sbyte* label_data, nuint label_len, byte* data_data, nuint data_len);
+    /// <summary>
+    /// Returns the length of the data contained by this PEM object.
+    /// </summary>
+    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPem_data_length", ExactSpelling = true)]
+    public static unsafe extern ulong DataLength(PickyPem* self);
 
-    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPem_label", ExactSpelling = true)]
-    public static extern pem_ffi_ResultVoidBoxPickyError label(PickyPem self, DiplomatWriteable writeable);
+    /// <summary>
+    /// Returns the label of this PEM object.
+    /// </summary>
+    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPem_to_label", ExactSpelling = true)]
+    public static unsafe extern PemFfiResultVoidBoxPickyError ToLabel(PickyPem* self, DiplomatWriteable* writeable);
 
-    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPem_print_label", ExactSpelling = true)]
-    public static extern void print_label(PickyPem self);
+    /// <summary>
+    /// Returns the string representation of this PEM object.
+    /// </summary>
+    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPem_to_repr", ExactSpelling = true)]
+    public static unsafe extern PemFfiResultVoidBoxPickyError ToRepr(PickyPem* self, DiplomatWriteable* writeable);
 
     [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPem_destroy", ExactSpelling = true)]
-    public static extern void destroy(PickyPem self);
+    public static unsafe extern void Destroy(PickyPem* self);
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct pem_ffi_ResultBoxPickyPemBoxPickyError {
+public struct PemFfiResultBoxPickyPemBoxPickyError
+{
     [StructLayout(LayoutKind.Explicit)]
-    public struct InnerUnion
+    private unsafe struct InnerUnion
     {
         [FieldOffset(0)]
-        public PickyPem ok;
+        internal PickyPem* ok;
         [FieldOffset(0)]
-        public PickyError err;
+        internal PickyError* err;
     }
 
-    public InnerUnion inner;
+    private InnerUnion _inner;
+
+    [MarshalAs(UnmanagedType.U1)]
     public bool isOk;
 
-    public PickyPem Ok
+    public unsafe PickyPem* Ok
     {
         get
         {
-            return inner.ok;
+            return _inner.ok;
         }
     }
 
-    public PickyError Err
+    public unsafe PickyError* Err
     {
         get
         {
-            return inner.err;
+            return _inner.err;
         }
     }
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct pem_ffi_ResultVoidBoxPickyError {
+public struct PemFfiResultVoidBoxPickyError
+{
     [StructLayout(LayoutKind.Explicit)]
-    public struct InnerUnion
+    private unsafe struct InnerUnion
     {
         [FieldOffset(0)]
-        public PickyError err;
+        internal PickyError* err;
     }
 
-    public InnerUnion inner;
+    private InnerUnion _inner;
+
+    [MarshalAs(UnmanagedType.U1)]
     public bool isOk;
 
-    public PickyError Err
+    public unsafe PickyError* Err
     {
         get
         {
-            return inner.err;
+            return _inner.err;
         }
     }
 }

@@ -1,29 +1,3 @@
-usings = []
 namespace = "Devolutions.Picky"
 native_lib = "picky"
-
-[nullopt]
-name = "mozilla::Nothing"
-expr = "mozilla::Nothing"
-is_call = true
-
-[optional]
-name = "mozilla::Maybe"
-expr = "mozilla::Maybe"
-
-[someopt]
-name = "mozilla::Some"
-expr = "mozilla::Some"
-is_call = true
-
-[span]
-name = "mozilla::Span"
-expr = "mozilla::Span"
-
-[string_view]
-name = "mozilla::Span"
-expr = "mozilla::Span<const char>"
-
-[unique_ptr]
-name = "mozilla::UniquePtr"
-expr = "mozilla::UniquePtr"
+error_message_method = "ToDisplay"

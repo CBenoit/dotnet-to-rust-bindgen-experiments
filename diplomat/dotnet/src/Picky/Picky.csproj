@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Company>Devolutions</Company>
     <Description>Bindings to Rust picky native library</Description>
-    <TargetFrameworks>net6.0</TargetFrameworks>
+    <TargetFrameworks>net472;net48;net6.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Version>0.1.0</Version>
     <ImplicitUsings>disable</ImplicitUsings>
