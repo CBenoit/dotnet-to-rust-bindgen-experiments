@@ -1,0 +1,15 @@
+[package]
+name = "picky-ffi"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+name = "picky"
+crate-type = ["staticlib", "cdylib"]
+
+[dependencies]
+picky = "6.3.0"
+diplomat = { git = "https://github.com/rust-diplomat/diplomat", rev = "a46d01025159e842982b2e4bc8ca9361d4b897dc" }
+diplomat-runtime = { git = "https://github.com/rust-diplomat/diplomat", rev = "a46d01025159e842982b2e4bc8ca9361d4b897dc" }
+
