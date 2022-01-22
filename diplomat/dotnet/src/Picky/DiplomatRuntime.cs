@@ -8,6 +8,8 @@ using System.Text;
 
 namespace Devolutions.Picky.Diplomat;
 
+#nullable enable
+
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 delegate void WriteableFlush(IntPtr self);
 

@@ -3,10 +3,13 @@
 #pragma warning disable 0105
 using System;
 using System.Runtime.InteropServices;
+
 using Devolutions.Picky.Diplomat;
 #pragma warning restore 0105
 
 namespace Devolutions.Picky;
+
+#nullable enable
 
 /// <summary>
 /// Picky PEM object.
@@ -16,10 +19,15 @@ public class PickyPem
     private unsafe Raw.PickyPem* _inner;
 
     /// <summary>
-    /// Creates a managed PickyPem from a raw handle.
+    /// Creates a managed <c>PickyPem</c> from a raw handle.
     /// </summary>
-    /// 
+    /// <remarks>
     /// Safety: you should not build two managed objects using the same raw handle (may causes use-after-free and double-free).
+    /// </remarks>
+    /// <remarks>
+    /// This constructor assumes the raw struct is allocated on Rust side.
+    /// If implemented, the custom Drop implementation on Rust side WILL run on destruction.
+    /// </remarks>
     public unsafe PickyPem(Raw.PickyPem* handle)
     {
         _inner = handle;
@@ -28,6 +36,7 @@ public class PickyPem
     /// <summary>
     /// Creates a PEM object with the given label and data.
     /// </summary>
+    /// <exception cref="PickyException"></exception>
     public static PickyPem New(string label, byte[] data)
     {
         byte[] labelBuf = DiplomatUtils.StringToUtf8(label);
@@ -54,6 +63,7 @@ public class PickyPem
     /// <summary>
     /// Loads a PEM from the filesystem.
     /// </summary>
+    /// <exception cref="PickyException"></exception>
     public static PickyPem LoadFromFile(string path)
     {
         byte[] pathBuf = DiplomatUtils.StringToUtf8(path);
@@ -76,6 +86,7 @@ public class PickyPem
     /// <summary>
     /// Saves this PEM object to the filesystem.
     /// </summary>
+    /// <exception cref="PickyException"></exception>
     public void SaveToFile(string path)
     {
         byte[] pathBuf = DiplomatUtils.StringToUtf8(path);
@@ -96,6 +107,7 @@ public class PickyPem
     /// <summary>
     /// Parses a PEM-encoded string representation.
     /// </summary>
+    /// <exception cref="PickyException"></exception>
     public static PickyPem Parse(string input)
     {
         byte[] inputBuf = DiplomatUtils.StringToUtf8(input);
@@ -130,6 +142,7 @@ public class PickyPem
     /// <summary>
     /// Returns the label of this PEM object.
     /// </summary>
+    /// <exception cref="PickyException"></exception>
     public void ToLabel(DiplomatWriteable writeable)
     {
         unsafe
@@ -145,6 +158,7 @@ public class PickyPem
     /// <summary>
     /// Returns the label of this PEM object.
     /// </summary>
+    /// <exception cref="PickyException"></exception>
     public string ToLabel()
     {
         unsafe
@@ -164,6 +178,7 @@ public class PickyPem
     /// <summary>
     /// Returns the string representation of this PEM object.
     /// </summary>
+    /// <exception cref="PickyException"></exception>
     public void ToRepr(DiplomatWriteable writeable)
     {
         unsafe
@@ -179,6 +194,7 @@ public class PickyPem
     /// <summary>
     /// Returns the string representation of this PEM object.
     /// </summary>
+    /// <exception cref="PickyException"></exception>
     public string ToRepr()
     {
         unsafe

@@ -3,10 +3,13 @@
 #pragma warning disable 0105
 using System;
 using System.Runtime.InteropServices;
+
 using Devolutions.Picky.Diplomat;
 #pragma warning restore 0105
 
 namespace Devolutions.Picky;
+
+#nullable enable
 
 /// <summary>
 /// Stringified Picky error.
@@ -16,10 +19,15 @@ public class PickyError
     private unsafe Raw.PickyError* _inner;
 
     /// <summary>
-    /// Creates a managed PickyError from a raw handle.
+    /// Creates a managed <c>PickyError</c> from a raw handle.
     /// </summary>
-    /// 
+    /// <remarks>
     /// Safety: you should not build two managed objects using the same raw handle (may causes use-after-free and double-free).
+    /// </remarks>
+    /// <remarks>
+    /// This constructor assumes the raw struct is allocated on Rust side.
+    /// If implemented, the custom Drop implementation on Rust side WILL run on destruction.
+    /// </remarks>
     public unsafe PickyError(Raw.PickyError* handle)
     {
         _inner = handle;

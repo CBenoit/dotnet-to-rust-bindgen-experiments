@@ -3,10 +3,13 @@
 #pragma warning disable 0105
 using System;
 using System.Runtime.InteropServices;
+
 using Devolutions.Picky.Diplomat;
 #pragma warning restore 0105
 
 namespace Devolutions.Picky;
+
+#nullable enable
 
 public class PickyException : Exception
 {
