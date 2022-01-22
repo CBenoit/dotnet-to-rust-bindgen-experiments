@@ -14,7 +14,7 @@ namespace Devolutions.Picky;
 /// <summary>
 /// Picky PEM object.
 /// </summary>
-public class PickyPem
+public partial class PickyPem
 {
     private unsafe Raw.PickyPem* _inner;
 

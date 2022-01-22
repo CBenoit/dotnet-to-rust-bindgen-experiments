@@ -11,7 +11,7 @@ namespace Devolutions.Picky;
 
 #nullable enable
 
-public class PickyException : Exception
+public partial class PickyException : Exception
 {
     private PickyError _inner;
 

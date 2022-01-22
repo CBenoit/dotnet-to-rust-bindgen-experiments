@@ -132,7 +132,7 @@ internal static class DiplomatUtils
     }
 }
 
-public class DiplomatInteropException : Exception
+public class DiplomatOpaqueException : Exception
 {
-    public DiplomatInteropException() : base("The FFI function failed") { }
+    public DiplomatOpaqueException() : base("The FFI function failed with an opaque error") { }
 }

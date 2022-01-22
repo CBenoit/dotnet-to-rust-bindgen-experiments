@@ -14,7 +14,7 @@ namespace Devolutions.Picky;
 /// <summary>
 /// Stringified Picky error.
 /// </summary>
-public class PickyError
+public partial class PickyError
 {
     private unsafe Raw.PickyError* _inner;
 

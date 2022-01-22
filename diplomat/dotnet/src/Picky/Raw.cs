@@ -3,16 +3,19 @@
 #pragma warning disable 0105
 using System;
 using System.Runtime.InteropServices;
+
 using Devolutions.Picky.Diplomat;
 #pragma warning restore 0105
 
 namespace Devolutions.Picky.Raw;
 
+#nullable enable
+
 /// <summary>
 /// Stringified Picky error.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public struct PickyError
+public partial struct PickyError
 {
     private const string NativeLib = "picky";
 
@@ -36,7 +39,7 @@ public struct PickyError
 /// Picky PEM object.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public struct PickyPem
+public partial struct PickyPem
 {
     private const string NativeLib = "picky";
 
@@ -87,7 +90,7 @@ public struct PickyPem
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct PemFfiResultBoxPickyPemBoxPickyError
+public partial struct PemFfiResultBoxPickyPemBoxPickyError
 {
     [StructLayout(LayoutKind.Explicit)]
     private unsafe struct InnerUnion
@@ -121,7 +124,7 @@ public struct PemFfiResultBoxPickyPemBoxPickyError
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct PemFfiResultVoidBoxPickyError
+public partial struct PemFfiResultVoidBoxPickyError
 {
     [StructLayout(LayoutKind.Explicit)]
     private unsafe struct InnerUnion
