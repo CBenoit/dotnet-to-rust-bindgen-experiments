@@ -14,7 +14,7 @@ namespace Devolutions.Picky;
 /// <summary>
 /// Picky PEM object.
 /// </summary>
-public partial class PickyPem
+public partial class PickyPem: IDisposable
 {
     private unsafe Raw.PickyPem* _inner;
 
@@ -37,13 +37,17 @@ public partial class PickyPem
     /// Creates a PEM object with the given label and data.
     /// </summary>
     /// <exception cref="PickyException"></exception>
+    /// <returns>
+    /// A <c>PickyPem</c> allocated on Rust side.
+    /// If a custom Drop implementation is implemented on Rust side, it WILL run on destruction.
+    /// </returns>
     public static PickyPem New(string label, byte[] data)
     {
-        byte[] labelBuf = DiplomatUtils.StringToUtf8(label);
-        nuint dataLength = (nuint) data.Length;
-        nuint labelBufLength = (nuint) labelBuf.Length;
         unsafe
         {
+            byte[] labelBuf = DiplomatUtils.StringToUtf8(label);
+            nuint dataLength = (nuint) data.Length;
+            nuint labelBufLength = (nuint) labelBuf.Length;
             fixed (byte* dataPtr = data)
             {
                 fixed (byte* labelBufPtr = labelBuf)
@@ -64,12 +68,16 @@ public partial class PickyPem
     /// Loads a PEM from the filesystem.
     /// </summary>
     /// <exception cref="PickyException"></exception>
+    /// <returns>
+    /// A <c>PickyPem</c> allocated on Rust side.
+    /// If a custom Drop implementation is implemented on Rust side, it WILL run on destruction.
+    /// </returns>
     public static PickyPem LoadFromFile(string path)
     {
-        byte[] pathBuf = DiplomatUtils.StringToUtf8(path);
-        nuint pathBufLength = (nuint) pathBuf.Length;
         unsafe
         {
+            byte[] pathBuf = DiplomatUtils.StringToUtf8(path);
+            nuint pathBufLength = (nuint) pathBuf.Length;
             fixed (byte* pathBufPtr = pathBuf)
             {
                 Raw.PemFfiResultBoxPickyPemBoxPickyError result = Raw.PickyPem.LoadFromFile(pathBufPtr, pathBufLength);
@@ -89,10 +97,14 @@ public partial class PickyPem
     /// <exception cref="PickyException"></exception>
     public void SaveToFile(string path)
     {
-        byte[] pathBuf = DiplomatUtils.StringToUtf8(path);
-        nuint pathBufLength = (nuint) pathBuf.Length;
         unsafe
         {
+            if (_inner == null)
+            {
+                throw new ObjectDisposedException("PickyPem");
+            }
+            byte[] pathBuf = DiplomatUtils.StringToUtf8(path);
+            nuint pathBufLength = (nuint) pathBuf.Length;
             fixed (byte* pathBufPtr = pathBuf)
             {
                 Raw.PemFfiResultVoidBoxPickyError result = Raw.PickyPem.SaveToFile(_inner, pathBufPtr, pathBufLength);
@@ -108,12 +120,16 @@ public partial class PickyPem
     /// Parses a PEM-encoded string representation.
     /// </summary>
     /// <exception cref="PickyException"></exception>
+    /// <returns>
+    /// A <c>PickyPem</c> allocated on Rust side.
+    /// If a custom Drop implementation is implemented on Rust side, it WILL run on destruction.
+    /// </returns>
     public static PickyPem Parse(string input)
     {
-        byte[] inputBuf = DiplomatUtils.StringToUtf8(input);
-        nuint inputBufLength = (nuint) inputBuf.Length;
         unsafe
         {
+            byte[] inputBuf = DiplomatUtils.StringToUtf8(input);
+            nuint inputBufLength = (nuint) inputBuf.Length;
             fixed (byte* inputBufPtr = inputBuf)
             {
                 Raw.PemFfiResultBoxPickyPemBoxPickyError result = Raw.PickyPem.Parse(inputBufPtr, inputBufLength);
@@ -134,6 +150,10 @@ public partial class PickyPem
     {
         unsafe
         {
+            if (_inner == null)
+            {
+                throw new ObjectDisposedException("PickyPem");
+            }
             ulong retVal = Raw.PickyPem.DataLength(_inner);
             return retVal;
         }
@@ -147,6 +167,10 @@ public partial class PickyPem
     {
         unsafe
         {
+            if (_inner == null)
+            {
+                throw new ObjectDisposedException("PickyPem");
+            }
             Raw.PemFfiResultVoidBoxPickyError result = Raw.PickyPem.ToLabel(_inner, &writeable);
             if (!result.isOk)
             {
@@ -163,6 +187,10 @@ public partial class PickyPem
     {
         unsafe
         {
+            if (_inner == null)
+            {
+                throw new ObjectDisposedException("PickyPem");
+            }
             DiplomatWriteable writeable = new DiplomatWriteable();
             Raw.PemFfiResultVoidBoxPickyError result = Raw.PickyPem.ToLabel(_inner, &writeable);
             if (!result.isOk)
@@ -183,6 +211,10 @@ public partial class PickyPem
     {
         unsafe
         {
+            if (_inner == null)
+            {
+                throw new ObjectDisposedException("PickyPem");
+            }
             Raw.PemFfiResultVoidBoxPickyError result = Raw.PickyPem.ToRepr(_inner, &writeable);
             if (!result.isOk)
             {
@@ -199,6 +231,10 @@ public partial class PickyPem
     {
         unsafe
         {
+            if (_inner == null)
+            {
+                throw new ObjectDisposedException("PickyPem");
+            }
             DiplomatWriteable writeable = new DiplomatWriteable();
             Raw.PemFfiResultVoidBoxPickyError result = Raw.PickyPem.ToRepr(_inner, &writeable);
             if (!result.isOk)
@@ -219,7 +255,10 @@ public partial class PickyPem
         return _inner;
     }
 
-    ~PickyPem()
+    /// <summary>
+    /// Destroys the underlying object immediately.
+    /// </summary>
+    public void Dispose()
     {
         unsafe
         {
@@ -230,6 +269,13 @@ public partial class PickyPem
 
             Raw.PickyPem.Destroy(_inner);
             _inner = null;
+
+            GC.SuppressFinalize(this);
         }
+    }
+
+    ~PickyPem()
+    {
+        Dispose();
     }
 }

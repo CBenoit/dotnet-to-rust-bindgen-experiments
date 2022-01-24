@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Devolutions.Picky.Tests;
 
-public class PemTest
+public class PemTests
 {
     private static readonly string certPemRepr = @"-----BEGIN CERTIFICATE-----
 MIIDPzCCAiegAwIBAgIBATANBgkqhkiG9w0BAQUFADA7MQswCQYDVQQGEwJOTDER
@@ -32,7 +32,7 @@ Od8i323fM5dQS1qQpBjBc/5fPw==
     {
         PickyPem pem = PickyPem.Parse(certPemRepr);
         Assert.Equal("CERTIFICATE", pem.ToLabel());
-        Assert.Equal(835UL, pem.DataLength());
+        Assert.Equal((ulong)835, pem.DataLength());
         Assert.Equal(certPemRepr, pem.ToRepr());
     }
 

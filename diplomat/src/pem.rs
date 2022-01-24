@@ -7,7 +7,7 @@ pub mod ffi {
 
     /// Picky PEM object.
     #[diplomat::opaque]
-    pub struct PickyPem(picky::pem::Pem<'static>);
+    pub struct PickyPem(pub picky::pem::Pem<'static>);
 
     impl PickyPem {
         /// Creates a PEM object with the given label and data.

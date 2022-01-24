@@ -14,7 +14,7 @@ namespace Devolutions.Picky;
 /// <summary>
 /// Stringified Picky error.
 /// </summary>
-public partial class PickyError
+public partial class PickyError: IDisposable
 {
     private unsafe Raw.PickyError* _inner;
 
@@ -40,6 +40,10 @@ public partial class PickyError
     {
         unsafe
         {
+            if (_inner == null)
+            {
+                throw new ObjectDisposedException("PickyError");
+            }
             Raw.PickyError.ToDisplay(_inner, &writeable);
         }
     }
@@ -51,6 +55,10 @@ public partial class PickyError
     {
         unsafe
         {
+            if (_inner == null)
+            {
+                throw new ObjectDisposedException("PickyError");
+            }
             DiplomatWriteable writeable = new DiplomatWriteable();
             Raw.PickyError.ToDisplay(_inner, &writeable);
             string retVal = writeable.ToUnicode();
@@ -66,6 +74,10 @@ public partial class PickyError
     {
         unsafe
         {
+            if (_inner == null)
+            {
+                throw new ObjectDisposedException("PickyError");
+            }
             Raw.PickyError.Print(_inner);
         }
     }
@@ -78,7 +90,10 @@ public partial class PickyError
         return _inner;
     }
 
-    ~PickyError()
+    /// <summary>
+    /// Destroys the underlying object immediately.
+    /// </summary>
+    public void Dispose()
     {
         unsafe
         {
@@ -89,6 +104,13 @@ public partial class PickyError
 
             Raw.PickyError.Destroy(_inner);
             _inner = null;
+
+            GC.SuppressFinalize(this);
         }
+    }
+
+    ~PickyError()
+    {
+        Dispose();
     }
 }

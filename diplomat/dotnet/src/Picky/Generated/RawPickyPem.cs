@@ -12,30 +12,6 @@ namespace Devolutions.Picky.Raw;
 #nullable enable
 
 /// <summary>
-/// Stringified Picky error.
-/// </summary>
-[StructLayout(LayoutKind.Sequential)]
-public partial struct PickyError
-{
-    private const string NativeLib = "picky";
-
-    /// <summary>
-    /// Returns the error as a string.
-    /// </summary>
-    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyError_to_display", ExactSpelling = true)]
-    public static unsafe extern void ToDisplay(PickyError* self, DiplomatWriteable* writeable);
-
-    /// <summary>
-    /// Prints the error string.
-    /// </summary>
-    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyError_print", ExactSpelling = true)]
-    public static unsafe extern void Print(PickyError* self);
-
-    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyError_destroy", ExactSpelling = true)]
-    public static unsafe extern void Destroy(PickyError* self);
-}
-
-/// <summary>
 /// Picky PEM object.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
@@ -87,62 +63,4 @@ public partial struct PickyPem
 
     [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPem_destroy", ExactSpelling = true)]
     public static unsafe extern void Destroy(PickyPem* self);
-}
-
-[StructLayout(LayoutKind.Sequential)]
-public partial struct PemFfiResultBoxPickyPemBoxPickyError
-{
-    [StructLayout(LayoutKind.Explicit)]
-    private unsafe struct InnerUnion
-    {
-        [FieldOffset(0)]
-        internal PickyPem* ok;
-        [FieldOffset(0)]
-        internal PickyError* err;
-    }
-
-    private InnerUnion _inner;
-
-    [MarshalAs(UnmanagedType.U1)]
-    public bool isOk;
-
-    public unsafe PickyPem* Ok
-    {
-        get
-        {
-            return _inner.ok;
-        }
-    }
-
-    public unsafe PickyError* Err
-    {
-        get
-        {
-            return _inner.err;
-        }
-    }
-}
-
-[StructLayout(LayoutKind.Sequential)]
-public partial struct PemFfiResultVoidBoxPickyError
-{
-    [StructLayout(LayoutKind.Explicit)]
-    private unsafe struct InnerUnion
-    {
-        [FieldOffset(0)]
-        internal PickyError* err;
-    }
-
-    private InnerUnion _inner;
-
-    [MarshalAs(UnmanagedType.U1)]
-    public bool isOk;
-
-    public unsafe PickyError* Err
-    {
-        get
-        {
-            return _inner.err;
-        }
-    }
 }
