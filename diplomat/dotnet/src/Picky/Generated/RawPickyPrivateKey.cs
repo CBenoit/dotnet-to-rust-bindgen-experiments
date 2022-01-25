@@ -17,7 +17,7 @@ public partial struct PickyPrivateKey
     private const string NativeLib = "picky";
 
     /// <summary>
-    /// Extracts a private key from a PEM object.
+    /// Extracts private key from PEM object.
     /// </summary>
     [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPrivateKey_from_pem", ExactSpelling = true)]
     public static unsafe extern KeyFfiResultBoxPickyPrivateKeyBoxPickyError FromPem(PickyPem* pem);
@@ -32,7 +32,7 @@ public partial struct PickyPrivateKey
     /// Generates a new RSA private key.
     /// </summary>
     /// <remarks>
-    /// This is insanely slow in debug builds.
+    /// This is slow in debug builds.
     /// </remarks>
     [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPrivateKey_generate_rsa", ExactSpelling = true)]
     public static unsafe extern KeyFfiResultBoxPickyPrivateKeyBoxPickyError GenerateRsa(nuint bits);

@@ -89,7 +89,7 @@ public struct DiplomatWriteable
         }
         DiplomatWriteable* self = (DiplomatWriteable*)writeable;
 
-        nuint newCap = self->cap * 2;
+        nuint newCap = capacity;
         if (newCap > int.MaxValue)
         {
             return false;

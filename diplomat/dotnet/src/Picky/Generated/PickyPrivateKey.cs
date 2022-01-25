@@ -31,7 +31,7 @@ public partial class PickyPrivateKey: IDisposable
     }
 
     /// <summary>
-    /// Extracts a private key from a PEM object.
+    /// Extracts private key from PEM object.
     /// </summary>
     /// <exception cref="PickyException"></exception>
     /// <returns>
@@ -84,7 +84,7 @@ public partial class PickyPrivateKey: IDisposable
     /// Generates a new RSA private key.
     /// </summary>
     /// <remarks>
-    /// This is insanely slow in debug builds.
+    /// This is slow in debug builds.
     /// </remarks>
     /// <exception cref="PickyException"></exception>
     /// <returns>

@@ -17,7 +17,7 @@ public partial struct PickyPublicKey
     private const string NativeLib = "picky";
 
     /// <summary>
-    /// Extracts a public key from a PEM object.
+    /// Extracts public key from PEM object.
     /// </summary>
     [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPublicKey_from_pem", ExactSpelling = true)]
     public static unsafe extern KeyFfiResultBoxPickyPublicKeyBoxPickyError FromPem(PickyPem* pem);

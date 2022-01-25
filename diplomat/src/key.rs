@@ -8,7 +8,7 @@ pub mod ffi {
     pub struct PickyPrivateKey(pub picky::key::PrivateKey);
 
     impl PickyPrivateKey {
-        /// Extracts a private key from a PEM object.
+        /// Extracts private key from PEM object.
         pub fn from_pem(pem: &PickyPem) -> DiplomatResult<Box<PickyPrivateKey>, Box<PickyError>> {
             let key = err_check!(picky::key::PrivateKey::from_pem(&pem.0));
             Ok(Box::new(PickyPrivateKey(key))).into()
@@ -22,7 +22,7 @@ pub mod ffi {
 
         /// Generates a new RSA private key.
         ///
-        /// This is insanely slow in debug builds.
+        /// This is slow in debug builds.
         pub fn generate_rsa(bits: usize) -> DiplomatResult<Box<PickyPrivateKey>, Box<PickyError>> {
             let key = err_check!(picky::key::PrivateKey::generate_rsa(bits));
             Ok(Box::new(PickyPrivateKey(key))).into()
@@ -44,7 +44,7 @@ pub mod ffi {
     pub struct PickyPublicKey(pub picky::key::PublicKey);
 
     impl PickyPublicKey {
-        /// Extracts a public key from a PEM object.
+        /// Extracts public key from PEM object.
         pub fn from_pem(pem: &PickyPem) -> DiplomatResult<Box<PickyPublicKey>, Box<PickyError>> {
             let key = err_check!(picky::key::PublicKey::from_pem(&pem.0));
             Ok(Box::new(PickyPublicKey(key))).into()

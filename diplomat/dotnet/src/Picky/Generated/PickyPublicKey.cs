@@ -31,7 +31,7 @@ public partial class PickyPublicKey: IDisposable
     }
 
     /// <summary>
-    /// Extracts a public key from a PEM object.
+    /// Extracts public key from PEM object.
     /// </summary>
     /// <exception cref="PickyException"></exception>
     /// <returns>

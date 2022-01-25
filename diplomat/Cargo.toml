@@ -9,6 +9,6 @@ name = "picky"
 crate-type = ["staticlib", "cdylib"]
 
 [dependencies]
-picky = { git = "https://github.com/Devolutions/picky-rs", branch = "misc" }
+picky = { git = "https://github.com/Devolutions/picky-rs", rev = "cc4bdc6", features = ["ssh", "time_conversion"] }
 diplomat = { git = "https://github.com/CBenoit/diplomat.git", branch = "csharp-backend" }
 diplomat-runtime = { git = "https://github.com/CBenoit/diplomat.git", branch = "csharp-backend" }
