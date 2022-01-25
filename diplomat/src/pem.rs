@@ -25,7 +25,7 @@ pub mod ffi {
 
         /// Saves this PEM object to the filesystem.
         pub fn save_to_file(&self, path: &str) -> DiplomatResult<(), Box<PickyError>> {
-            let mut file = std::io::BufWriter::new(err_check!(std::fs::File::open(path)));
+            let mut file = std::io::BufWriter::new(err_check!(std::fs::File::create(path)));
             err_check!(write!(file, "{}", self.0));
             Ok(()).into()
         }
