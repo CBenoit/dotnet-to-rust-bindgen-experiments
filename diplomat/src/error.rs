@@ -11,6 +11,7 @@ pub mod ffi {
         /// Returns the error as a string.
         pub fn to_display(&self, writeable: &mut DiplomatWriteable) {
             let _ = write!(writeable, "{}", self.0);
+            writeable.flush();
         }
 
         /// Prints the error string.

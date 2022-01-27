@@ -18,6 +18,62 @@ public partial class PickySshTime: IDisposable
 {
     private unsafe Raw.PickySshTime* _inner;
 
+    public byte Day
+    {
+        get
+        {
+            return GetDay();
+        }
+    }
+
+    public byte Hour
+    {
+        get
+        {
+            return GetHour();
+        }
+    }
+
+    public byte Minute
+    {
+        get
+        {
+            return GetMinute();
+        }
+    }
+
+    public byte Month
+    {
+        get
+        {
+            return GetMonth();
+        }
+    }
+
+    public byte Second
+    {
+        get
+        {
+            return GetSecond();
+        }
+    }
+
+    public ulong Timestamp
+    {
+        get
+        {
+            return GetTimestamp();
+        }
+    }
+
+    public ushort Year
+    {
+        get
+        {
+            return GetYear();
+        }
+    }
+
     /// <summary>
     /// Creates a managed <c>PickySshTime</c> from a raw handle.
     /// </summary>
@@ -59,7 +115,7 @@ public partial class PickySshTime: IDisposable
         }
     }
 
-    public ulong Timestamp()
+    public ulong GetTimestamp()
     {
         unsafe
         {
@@ -67,12 +123,12 @@ public partial class PickySshTime: IDisposable
             {
                 throw new ObjectDisposedException("PickySshTime");
             }
-            ulong retVal = Raw.PickySshTime.Timestamp(_inner);
+            ulong retVal = Raw.PickySshTime.GetTimestamp(_inner);
             return retVal;
         }
     }
 
-    public byte Month()
+    public byte GetMonth()
     {
         unsafe
         {
@@ -80,12 +136,12 @@ public partial class PickySshTime: IDisposable
             {
                 throw new ObjectDisposedException("PickySshTime");
             }
-            byte retVal = Raw.PickySshTime.Month(_inner);
+            byte retVal = Raw.PickySshTime.GetMonth(_inner);
             return retVal;
         }
     }
 
-    public byte Day()
+    public byte GetDay()
     {
         unsafe
         {
@@ -93,12 +149,12 @@ public partial class PickySshTime: IDisposable
             {
                 throw new ObjectDisposedException("PickySshTime");
             }
-            byte retVal = Raw.PickySshTime.Day(_inner);
+            byte retVal = Raw.PickySshTime.GetDay(_inner);
             return retVal;
         }
     }
 
-    public byte Hour()
+    public byte GetHour()
     {
         unsafe
         {
@@ -106,12 +162,12 @@ public partial class PickySshTime: IDisposable
             {
                 throw new ObjectDisposedException("PickySshTime");
             }
-            byte retVal = Raw.PickySshTime.Hour(_inner);
+            byte retVal = Raw.PickySshTime.GetHour(_inner);
             return retVal;
         }
     }
 
-    public byte Minute()
+    public byte GetMinute()
     {
         unsafe
         {
@@ -119,12 +175,12 @@ public partial class PickySshTime: IDisposable
             {
                 throw new ObjectDisposedException("PickySshTime");
             }
-            byte retVal = Raw.PickySshTime.Minute(_inner);
+            byte retVal = Raw.PickySshTime.GetMinute(_inner);
             return retVal;
         }
     }
 
-    public byte Second()
+    public byte GetSecond()
     {
         unsafe
         {
@@ -132,12 +188,12 @@ public partial class PickySshTime: IDisposable
             {
                 throw new ObjectDisposedException("PickySshTime");
             }
-            byte retVal = Raw.PickySshTime.Second(_inner);
+            byte retVal = Raw.PickySshTime.GetSecond(_inner);
             return retVal;
         }
     }
 
-    public ushort Year()
+    public ushort GetYear()
     {
         unsafe
         {
@@ -145,7 +201,7 @@ public partial class PickySshTime: IDisposable
             {
                 throw new ObjectDisposedException("PickySshTime");
             }
-            ushort retVal = Raw.PickySshTime.Year(_inner);
+            ushort retVal = Raw.PickySshTime.GetYear(_inner);
             return retVal;
         }
     }

@@ -97,7 +97,6 @@ pub mod ffi {
             writeable.flush();
             Ok(()).into()
         }
-
     }
 
     /// SSH Private Key.
@@ -227,31 +226,31 @@ pub mod ffi {
             Box::new(Self(SshTime::from_timestamp(timestamp)))
         }
 
-        pub fn timestamp(&self) -> u64 {
+        pub fn get_timestamp(&self) -> u64 {
             self.0.timestamp()
         }
 
-        pub fn month(&self) -> u8 {
+        pub fn get_month(&self) -> u8 {
             self.0.month()
         }
 
-        pub fn day(&self) -> u8 {
+        pub fn get_day(&self) -> u8 {
             self.0.day()
         }
 
-        pub fn hour(&self) -> u8 {
+        pub fn get_hour(&self) -> u8 {
             self.0.hour()
         }
 
-        pub fn minute(&self) -> u8 {
+        pub fn get_minute(&self) -> u8 {
             self.0.minute()
         }
 
-        pub fn second(&self) -> u8 {
+        pub fn get_second(&self) -> u8 {
             self.0.second()
         }
 
-        pub fn year(&self) -> u16 {
+        pub fn get_year(&self) -> u16 {
             self.0.year()
         }
     }

@@ -18,6 +18,22 @@ public partial class PickySshPrivateKey: IDisposable
 {
     private unsafe Raw.PickySshPrivateKey* _inner;
 
+    public string CipherName
+    {
+        get
+        {
+            return GetCipherName();
+        }
+    }
+
+    public string Comment
+    {
+        get
+        {
+            return GetComment();
+        }
+    }
+
     /// <summary>
     /// Creates a managed <c>PickySshPrivateKey</c> from a raw handle.
     /// </summary>
@@ -56,8 +72,8 @@ public partial class PickySshPrivateKey: IDisposable
         {
             byte[] passphraseBuf = DiplomatUtils.StringToUtf8(passphrase);
             byte[] commentBuf = DiplomatUtils.StringToUtf8(comment);
-            nuint passphraseBufLength = (nuint) passphraseBuf.Length;
-            nuint commentBufLength = (nuint) commentBuf.Length;
+            nuint passphraseBufLength = (nuint)passphraseBuf.Length;
+            nuint commentBufLength = (nuint)commentBuf.Length;
             fixed (byte* passphraseBufPtr = passphraseBuf)
             {
                 fixed (byte* commentBufPtr = commentBuf)
@@ -90,9 +106,13 @@ public partial class PickySshPrivateKey: IDisposable
         unsafe
         {
             byte[] passphraseBuf = DiplomatUtils.StringToUtf8(passphrase);
-            nuint passphraseBufLength = (nuint) passphraseBuf.Length;
+            nuint passphraseBufLength = (nuint)passphraseBuf.Length;
             Raw.PickyPem* pemRaw;
             pemRaw = pem.AsFFI();
+            if (pemRaw == null)
+            {
+                throw new ObjectDisposedException("PickyPem");
+            }
             fixed (byte* passphraseBufPtr = passphraseBuf)
             {
                 Raw.SshFfiResultBoxPickySshPrivateKeyBoxPickyError result = Raw.PickySshPrivateKey.FromPem(pemRaw, passphraseBufPtr, passphraseBufLength);
@@ -116,6 +136,10 @@ public partial class PickySshPrivateKey: IDisposable
         {
             Raw.PickyPrivateKey* keyRaw;
             keyRaw = key.AsFFI();
+            if (keyRaw == null)
+            {
+                throw new ObjectDisposedException("PickyPrivateKey");
+            }
             Raw.PickySshPrivateKey* retVal = Raw.PickySshPrivateKey.FromPrivateKey(keyRaw);
             return new PickySshPrivateKey(retVal);
         }
@@ -186,7 +210,7 @@ public partial class PickySshPrivateKey: IDisposable
                 throw new PickyException(new PickyError(result.Err));
             }
             string retVal = writeable.ToUnicode();
-            writeable.FreeBuffer();
+            writeable.Dispose();
             return retVal;
         }
     }
@@ -224,7 +248,7 @@ public partial class PickySshPrivateKey: IDisposable
                 throw new PickyException(new PickyError(result.Err));
             }
             string retVal = writeable.ToUnicode();
-            writeable.FreeBuffer();
+            writeable.Dispose();
             return retVal;
         }
     }
@@ -262,7 +286,7 @@ public partial class PickySshPrivateKey: IDisposable
                 throw new PickyException(new PickyError(result.Err));
             }
             string retVal = writeable.ToUnicode();
-            writeable.FreeBuffer();
+            writeable.Dispose();
             return retVal;
         }
     }

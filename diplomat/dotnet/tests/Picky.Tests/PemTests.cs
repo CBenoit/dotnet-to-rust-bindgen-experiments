@@ -31,8 +31,8 @@ Od8i323fM5dQS1qQpBjBc/5fPw==
     public void Parse()
     {
         PickyPem pem = PickyPem.Parse(certPemRepr);
-        Assert.Equal("CERTIFICATE", pem.ToLabel());
-        Assert.Equal((ulong)835, pem.DataLength());
+        Assert.Equal("CERTIFICATE", pem.Label);
+        Assert.Equal((ulong)835, pem.DataLength);
         Assert.Equal(certPemRepr, pem.ToRepr());
     }
 
@@ -41,7 +41,7 @@ Od8i323fM5dQS1qQpBjBc/5fPw==
     {
         PickyPem fromReprPem = PickyPem.Parse(certPemRepr);
         // TODO: need support for returning buffer of bytes
-        // PickyPem fromDataPem = PickyPem.New(fromReprPem.ToLabel(), fromReprPem.ToData());
+        // PickyPem fromDataPem = PickyPem.New(fromReprPem.Label, fromReprPem.ToData());
         // Assert.Equal(certPemRepr, fromDataPem.ToRepr());
     }
 

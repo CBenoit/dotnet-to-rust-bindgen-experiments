@@ -62,7 +62,7 @@ public partial class PickyError: IDisposable
             DiplomatWriteable writeable = new DiplomatWriteable();
             Raw.PickyError.ToDisplay(_inner, &writeable);
             string retVal = writeable.ToUnicode();
-            writeable.FreeBuffer();
+            writeable.Dispose();
             return retVal;
         }
     }

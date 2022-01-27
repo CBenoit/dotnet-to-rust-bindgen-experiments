@@ -60,10 +60,14 @@ public partial class PickySignatureAlgorithm: IDisposable
             {
                 throw new ObjectDisposedException("PickySignatureAlgorithm");
             }
-            nuint msgLength = (nuint) msg.Length;
-            nuint signatureLength = (nuint) signature.Length;
+            nuint msgLength = (nuint)msg.Length;
+            nuint signatureLength = (nuint)signature.Length;
             Raw.PickyPublicKey* publicKeyRaw;
             publicKeyRaw = publicKey.AsFFI();
+            if (publicKeyRaw == null)
+            {
+                throw new ObjectDisposedException("PickyPublicKey");
+            }
             fixed (byte* msgPtr = msg)
             {
                 fixed (byte* signaturePtr = signature)

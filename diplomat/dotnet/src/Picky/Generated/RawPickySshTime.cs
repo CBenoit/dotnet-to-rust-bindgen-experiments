@@ -25,26 +25,26 @@ public partial struct PickySshTime
     [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickySshTime_from_timestamp", ExactSpelling = true)]
     public static unsafe extern PickySshTime* FromTimestamp(ulong timestamp);
 
-    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickySshTime_timestamp", ExactSpelling = true)]
-    public static unsafe extern ulong Timestamp(PickySshTime* self);
+    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickySshTime_get_timestamp", ExactSpelling = true)]
+    public static unsafe extern ulong GetTimestamp(PickySshTime* self);
 
-    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickySshTime_month", ExactSpelling = true)]
-    public static unsafe extern byte Month(PickySshTime* self);
+    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickySshTime_get_month", ExactSpelling = true)]
+    public static unsafe extern byte GetMonth(PickySshTime* self);
 
-    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickySshTime_day", ExactSpelling = true)]
-    public static unsafe extern byte Day(PickySshTime* self);
+    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickySshTime_get_day", ExactSpelling = true)]
+    public static unsafe extern byte GetDay(PickySshTime* self);
 
-    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickySshTime_hour", ExactSpelling = true)]
-    public static unsafe extern byte Hour(PickySshTime* self);
+    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickySshTime_get_hour", ExactSpelling = true)]
+    public static unsafe extern byte GetHour(PickySshTime* self);
 
-    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickySshTime_minute", ExactSpelling = true)]
-    public static unsafe extern byte Minute(PickySshTime* self);
+    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickySshTime_get_minute", ExactSpelling = true)]
+    public static unsafe extern byte GetMinute(PickySshTime* self);
 
-    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickySshTime_second", ExactSpelling = true)]
-    public static unsafe extern byte Second(PickySshTime* self);
+    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickySshTime_get_second", ExactSpelling = true)]
+    public static unsafe extern byte GetSecond(PickySshTime* self);
 
-    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickySshTime_year", ExactSpelling = true)]
-    public static unsafe extern ushort Year(PickySshTime* self);
+    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickySshTime_get_year", ExactSpelling = true)]
+    public static unsafe extern ushort GetYear(PickySshTime* self);
 
     [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickySshTime_destroy", ExactSpelling = true)]
     public static unsafe extern void Destroy(PickySshTime* self);

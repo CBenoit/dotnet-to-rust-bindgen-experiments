@@ -46,14 +46,14 @@ public partial struct PickyPem
     /// <summary>
     /// Returns the length of the data contained by this PEM object.
     /// </summary>
-    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPem_data_length", ExactSpelling = true)]
-    public static unsafe extern ulong DataLength(PickyPem* self);
+    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPem_get_data_length", ExactSpelling = true)]
+    public static unsafe extern ulong GetDataLength(PickyPem* self);
 
     /// <summary>
     /// Returns the label of this PEM object.
     /// </summary>
-    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPem_to_label", ExactSpelling = true)]
-    public static unsafe extern PemFfiResultVoidBoxPickyError ToLabel(PickyPem* self, DiplomatWriteable* writeable);
+    [DllImport(NativeLib, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PickyPem_get_label", ExactSpelling = true)]
+    public static unsafe extern PemFfiResultVoidBoxPickyError GetLabel(PickyPem* self, DiplomatWriteable* writeable);
 
     /// <summary>
     /// Returns the string representation of this PEM object.

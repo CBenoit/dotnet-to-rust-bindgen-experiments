@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Picky", "src\Picky\Picky.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Picky.Tests", "tests\Picky.Tests\Picky.Tests.csproj", "{A3721F3C-A0C2-42BB-81AF-2A4781926C3D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9787A53B-B004-4C74-B92B-F35C3B92AF86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickyCLI", "src\PickyCLI\PickyCLI.csproj", "{F28D2407-7B3F-475C-83F9-BA4D80C31ADA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,12 @@ Global
 		{A3721F3C-A0C2-42BB-81AF-2A4781926C3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3721F3C-A0C2-42BB-81AF-2A4781926C3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3721F3C-A0C2-42BB-81AF-2A4781926C3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F28D2407-7B3F-475C-83F9-BA4D80C31ADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F28D2407-7B3F-475C-83F9-BA4D80C31ADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F28D2407-7B3F-475C-83F9-BA4D80C31ADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F28D2407-7B3F-475C-83F9-BA4D80C31ADA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F28D2407-7B3F-475C-83F9-BA4D80C31ADA} = {9787A53B-B004-4C74-B92B-F35C3B92AF86}
 	EndGlobalSection
 EndGlobal

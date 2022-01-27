@@ -18,6 +18,86 @@ public partial class PickySshCertBuilder: IDisposable
 {
     private unsafe Raw.PickySshCertBuilder* _inner;
 
+    public PickySshCertKeyType CertKeyType
+    {
+        set
+        {
+            SetCertKeyType(value);
+        }
+    }
+
+    public PickySshCertType CertType
+    {
+        set
+        {
+            SetCertType(value);
+        }
+    }
+
+    public string Comment
+    {
+        set
+        {
+            SetComment(value);
+        }
+    }
+
+    public PickySshPublicKey Key
+    {
+        set
+        {
+            SetKey(value);
+        }
+    }
+
+    public string KeyId
+    {
+        set
+        {
+            SetKeyId(value);
+        }
+    }
+
+    public ulong Serial
+    {
+        set
+        {
+            SetSerial(value);
+        }
+    }
+
+    public PickySignatureAlgorithm SignatureAlgo
+    {
+        set
+        {
+            SetSignatureAlgo(value);
+        }
+    }
+
+    public PickySshPrivateKey SignatureKey
+    {
+        set
+        {
+            SetSignatureKey(value);
+        }
+    }
+
+    public PickySshTime ValidAfter
+    {
+        set
+        {
+            SetValidAfter(value);
+        }
+    }
+
+    public PickySshTime ValidBefore
+    {
+        set
+        {
+            SetValidBefore(value);
+        }
+    }
+
     /// <summary>
     /// Creates a managed <c>PickySshCertBuilder</c> from a raw handle.
     /// </summary>
@@ -76,6 +156,10 @@ public partial class PickySshCertBuilder: IDisposable
             }
             Raw.PickySshPublicKey* keyRaw;
             keyRaw = key.AsFFI();
+            if (keyRaw == null)
+            {
+                throw new ObjectDisposedException("PickySshPublicKey");
+            }
             Raw.PickySshCertBuilder.SetKey(_inner, keyRaw);
         }
     }
@@ -124,7 +208,7 @@ public partial class PickySshCertBuilder: IDisposable
                 throw new ObjectDisposedException("PickySshCertBuilder");
             }
             byte[] keyIdBuf = DiplomatUtils.StringToUtf8(keyId);
-            nuint keyIdBufLength = (nuint) keyIdBuf.Length;
+            nuint keyIdBufLength = (nuint)keyIdBuf.Length;
             fixed (byte* keyIdBufPtr = keyIdBuf)
             {
                 Raw.PickySshCertBuilder.SetKeyId(_inner, keyIdBufPtr, keyIdBufLength);
@@ -145,6 +229,10 @@ public partial class PickySshCertBuilder: IDisposable
             }
             Raw.PickySshTime* validBeforeRaw;
             validBeforeRaw = validBefore.AsFFI();
+            if (validBeforeRaw == null)
+            {
+                throw new ObjectDisposedException("PickySshTime");
+            }
             Raw.PickySshCertBuilder.SetValidBefore(_inner, validBeforeRaw);
         }
     }
@@ -162,6 +250,10 @@ public partial class PickySshCertBuilder: IDisposable
             }
             Raw.PickySshTime* validAfterRaw;
             validAfterRaw = validAfter.AsFFI();
+            if (validAfterRaw == null)
+            {
+                throw new ObjectDisposedException("PickySshTime");
+            }
             Raw.PickySshCertBuilder.SetValidAfter(_inner, validAfterRaw);
         }
     }
@@ -179,6 +271,10 @@ public partial class PickySshCertBuilder: IDisposable
             }
             Raw.PickySshPrivateKey* signatureKeyRaw;
             signatureKeyRaw = signatureKey.AsFFI();
+            if (signatureKeyRaw == null)
+            {
+                throw new ObjectDisposedException("PickySshPrivateKey");
+            }
             Raw.PickySshCertBuilder.SetSignatureKey(_inner, signatureKeyRaw);
         }
     }
@@ -196,6 +292,10 @@ public partial class PickySshCertBuilder: IDisposable
             }
             Raw.PickySignatureAlgorithm* signatureAlgoRaw;
             signatureAlgoRaw = signatureAlgo.AsFFI();
+            if (signatureAlgoRaw == null)
+            {
+                throw new ObjectDisposedException("PickySignatureAlgorithm");
+            }
             Raw.PickySshCertBuilder.SetSignatureAlgo(_inner, signatureAlgoRaw);
         }
     }
@@ -212,7 +312,7 @@ public partial class PickySshCertBuilder: IDisposable
                 throw new ObjectDisposedException("PickySshCertBuilder");
             }
             byte[] commentBuf = DiplomatUtils.StringToUtf8(comment);
-            nuint commentBufLength = (nuint) commentBuf.Length;
+            nuint commentBufLength = (nuint)commentBuf.Length;
             fixed (byte* commentBufPtr = commentBuf)
             {
                 Raw.PickySshCertBuilder.SetComment(_inner, commentBufPtr, commentBufLength);

@@ -43,12 +43,12 @@ pub mod ffi {
         // }
 
         /// Returns the length of the data contained by this PEM object.
-        pub fn data_length(&self) -> u64 {
+        pub fn get_data_length(&self) -> u64 {
             self.0.data().len() as u64
         }
 
         /// Returns the label of this PEM object.
-        pub fn to_label(
+        pub fn get_label(
             &self,
             writeable: &mut DiplomatWriteable,
         ) -> DiplomatResult<(), Box<PickyError>> {

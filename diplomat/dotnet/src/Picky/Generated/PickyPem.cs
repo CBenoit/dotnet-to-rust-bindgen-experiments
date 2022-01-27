@@ -18,6 +18,22 @@ public partial class PickyPem: IDisposable
 {
     private unsafe Raw.PickyPem* _inner;
 
+    public ulong DataLength
+    {
+        get
+        {
+            return GetDataLength();
+        }
+    }
+
+    public string Label
+    {
+        get
+        {
+            return GetLabel();
+        }
+    }
+
     /// <summary>
     /// Creates a managed <c>PickyPem</c> from a raw handle.
     /// </summary>
@@ -46,8 +62,8 @@ public partial class PickyPem: IDisposable
         unsafe
         {
             byte[] labelBuf = DiplomatUtils.StringToUtf8(label);
-            nuint dataLength = (nuint) data.Length;
-            nuint labelBufLength = (nuint) labelBuf.Length;
+            nuint dataLength = (nuint)data.Length;
+            nuint labelBufLength = (nuint)labelBuf.Length;
             fixed (byte* dataPtr = data)
             {
                 fixed (byte* labelBufPtr = labelBuf)
@@ -77,7 +93,7 @@ public partial class PickyPem: IDisposable
         unsafe
         {
             byte[] pathBuf = DiplomatUtils.StringToUtf8(path);
-            nuint pathBufLength = (nuint) pathBuf.Length;
+            nuint pathBufLength = (nuint)pathBuf.Length;
             fixed (byte* pathBufPtr = pathBuf)
             {
                 Raw.PemFfiResultBoxPickyPemBoxPickyError result = Raw.PickyPem.LoadFromFile(pathBufPtr, pathBufLength);
@@ -104,7 +120,7 @@ public partial class PickyPem: IDisposable
                 throw new ObjectDisposedException("PickyPem");
             }
             byte[] pathBuf = DiplomatUtils.StringToUtf8(path);
-            nuint pathBufLength = (nuint) pathBuf.Length;
+            nuint pathBufLength = (nuint)pathBuf.Length;
             fixed (byte* pathBufPtr = pathBuf)
             {
                 Raw.PemFfiResultVoidBoxPickyError result = Raw.PickyPem.SaveToFile(_inner, pathBufPtr, pathBufLength);
@@ -129,7 +145,7 @@ public partial class PickyPem: IDisposable
         unsafe
         {
             byte[] inputBuf = DiplomatUtils.StringToUtf8(input);
-            nuint inputBufLength = (nuint) inputBuf.Length;
+            nuint inputBufLength = (nuint)inputBuf.Length;
             fixed (byte* inputBufPtr = inputBuf)
             {
                 Raw.PemFfiResultBoxPickyPemBoxPickyError result = Raw.PickyPem.Parse(inputBufPtr, inputBufLength);
@@ -146,7 +162,7 @@ public partial class PickyPem: IDisposable
     /// <summary>
     /// Returns the length of the data contained by this PEM object.
     /// </summary>
-    public ulong DataLength()
+    public ulong GetDataLength()
     {
         unsafe
         {
@@ -154,7 +170,7 @@ public partial class PickyPem: IDisposable
             {
                 throw new ObjectDisposedException("PickyPem");
             }
-            ulong retVal = Raw.PickyPem.DataLength(_inner);
+            ulong retVal = Raw.PickyPem.GetDataLength(_inner);
             return retVal;
         }
     }
@@ -163,7 +179,7 @@ public partial class PickyPem: IDisposable
     /// Returns the label of this PEM object.
     /// </summary>
     /// <exception cref="PickyException"></exception>
-    public void ToLabel(DiplomatWriteable writeable)
+    public void GetLabel(DiplomatWriteable writeable)
     {
         unsafe
         {
@@ -171,7 +187,7 @@ public partial class PickyPem: IDisposable
             {
                 throw new ObjectDisposedException("PickyPem");
             }
-            Raw.PemFfiResultVoidBoxPickyError result = Raw.PickyPem.ToLabel(_inner, &writeable);
+            Raw.PemFfiResultVoidBoxPickyError result = Raw.PickyPem.GetLabel(_inner, &writeable);
             if (!result.isOk)
             {
                 throw new PickyException(new PickyError(result.Err));
@@ -183,7 +199,7 @@ public partial class PickyPem: IDisposable
     /// Returns the label of this PEM object.
     /// </summary>
     /// <exception cref="PickyException"></exception>
-    public string ToLabel()
+    public string GetLabel()
     {
         unsafe
         {
@@ -192,13 +208,13 @@ public partial class PickyPem: IDisposable
                 throw new ObjectDisposedException("PickyPem");
             }
             DiplomatWriteable writeable = new DiplomatWriteable();
-            Raw.PemFfiResultVoidBoxPickyError result = Raw.PickyPem.ToLabel(_inner, &writeable);
+            Raw.PemFfiResultVoidBoxPickyError result = Raw.PickyPem.GetLabel(_inner, &writeable);
             if (!result.isOk)
             {
                 throw new PickyException(new PickyError(result.Err));
             }
             string retVal = writeable.ToUnicode();
-            writeable.FreeBuffer();
+            writeable.Dispose();
             return retVal;
         }
     }
@@ -242,7 +258,7 @@ public partial class PickyPem: IDisposable
                 throw new PickyException(new PickyError(result.Err));
             }
             string retVal = writeable.ToUnicode();
-            writeable.FreeBuffer();
+            writeable.Dispose();
             return retVal;
         }
     }

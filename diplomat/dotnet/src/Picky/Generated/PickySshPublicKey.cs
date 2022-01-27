@@ -18,6 +18,14 @@ public partial class PickySshPublicKey: IDisposable
 {
     private unsafe Raw.PickySshPublicKey* _inner;
 
+    public string Comment
+    {
+        get
+        {
+            return GetComment();
+        }
+    }
+
     /// <summary>
     /// Creates a managed <c>PickySshPublicKey</c> from a raw handle.
     /// </summary>
@@ -46,7 +54,7 @@ public partial class PickySshPublicKey: IDisposable
         unsafe
         {
             byte[] reprBuf = DiplomatUtils.StringToUtf8(repr);
-            nuint reprBufLength = (nuint) reprBuf.Length;
+            nuint reprBufLength = (nuint)reprBuf.Length;
             fixed (byte* reprBufPtr = reprBuf)
             {
                 Raw.SshFfiResultBoxPickySshPublicKeyBoxPickyError result = Raw.PickySshPublicKey.Parse(reprBufPtr, reprBufLength);
@@ -109,7 +117,7 @@ public partial class PickySshPublicKey: IDisposable
                 throw new PickyException(new PickyError(result.Err));
             }
             string retVal = writeable.ToUnicode();
-            writeable.FreeBuffer();
+            writeable.Dispose();
             return retVal;
         }
     }
@@ -147,7 +155,7 @@ public partial class PickySshPublicKey: IDisposable
                 throw new PickyException(new PickyError(result.Err));
             }
             string retVal = writeable.ToUnicode();
-            writeable.FreeBuffer();
+            writeable.Dispose();
             return retVal;
         }
     }

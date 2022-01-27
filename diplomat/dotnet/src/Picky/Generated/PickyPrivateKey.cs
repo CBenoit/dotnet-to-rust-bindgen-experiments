@@ -44,6 +44,10 @@ public partial class PickyPrivateKey: IDisposable
         {
             Raw.PickyPem* pemRaw;
             pemRaw = pem.AsFFI();
+            if (pemRaw == null)
+            {
+                throw new ObjectDisposedException("PickyPem");
+            }
             Raw.KeyFfiResultBoxPickyPrivateKeyBoxPickyError result = Raw.PickyPrivateKey.FromPem(pemRaw);
             if (!result.isOk)
             {
@@ -66,7 +70,7 @@ public partial class PickyPrivateKey: IDisposable
     {
         unsafe
         {
-            nuint pkcs8Length = (nuint) pkcs8.Length;
+            nuint pkcs8Length = (nuint)pkcs8.Length;
             fixed (byte* pkcs8Ptr = pkcs8)
             {
                 Raw.KeyFfiResultBoxPickyPrivateKeyBoxPickyError result = Raw.PickyPrivateKey.FromPkcs8(pkcs8Ptr, pkcs8Length);

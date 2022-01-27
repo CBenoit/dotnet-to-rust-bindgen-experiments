@@ -15,6 +15,70 @@ public partial class PickySshCert: IDisposable
 {
     private unsafe Raw.PickySshCert* _inner;
 
+    public PickySshCertType CertType
+    {
+        get
+        {
+            return GetCertType();
+        }
+    }
+
+    public string Comment
+    {
+        get
+        {
+            return GetComment();
+        }
+    }
+
+    public string KeyId
+    {
+        get
+        {
+            return GetKeyId();
+        }
+    }
+
+    public PickySshPublicKey PublicKey
+    {
+        get
+        {
+            return GetPublicKey();
+        }
+    }
+
+    public PickySshPublicKey SignatureKey
+    {
+        get
+        {
+            return GetSignatureKey();
+        }
+    }
+
+    public PickySshCertKeyType SshKeyType
+    {
+        get
+        {
+            return GetSshKeyType();
+        }
+    }
+
+    public PickySshTime ValidAfter
+    {
+        get
+        {
+            return GetValidAfter();
+        }
+    }
+
+    public PickySshTime ValidBefore
+    {
+        get
+        {
+            return GetValidBefore();
+        }
+    }
+
     /// <summary>
     /// Creates a managed <c>PickySshCert</c> from a raw handle.
     /// </summary>
@@ -56,7 +120,7 @@ public partial class PickySshCert: IDisposable
         unsafe
         {
             byte[] reprBuf = DiplomatUtils.StringToUtf8(repr);
-            nuint reprBufLength = (nuint) reprBuf.Length;
+            nuint reprBufLength = (nuint)reprBuf.Length;
             fixed (byte* reprBufPtr = reprBuf)
             {
                 Raw.SshFfiResultBoxPickySshCertBoxPickyError result = Raw.PickySshCert.Parse(reprBufPtr, reprBufLength);
@@ -109,7 +173,7 @@ public partial class PickySshCert: IDisposable
                 throw new PickyException(new PickyError(result.Err));
             }
             string retVal = writeable.ToUnicode();
-            writeable.FreeBuffer();
+            writeable.Dispose();
             return retVal;
         }
     }
@@ -249,7 +313,7 @@ public partial class PickySshCert: IDisposable
                 throw new PickyException(new PickyError(result.Err));
             }
             string retVal = writeable.ToUnicode();
-            writeable.FreeBuffer();
+            writeable.Dispose();
             return retVal;
         }
     }
@@ -287,7 +351,7 @@ public partial class PickySshCert: IDisposable
                 throw new PickyException(new PickyError(result.Err));
             }
             string retVal = writeable.ToUnicode();
-            writeable.FreeBuffer();
+            writeable.Dispose();
             return retVal;
         }
     }

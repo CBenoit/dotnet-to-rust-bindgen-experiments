@@ -55,7 +55,7 @@ switch (action)
 
             PickyPem privKeyPem = PickyPem.LoadFromFile(signerKeyPath);
             PickySshPrivateKey privKey;
-            if (privKeyPem.ToLabel() == "OPENSSH PRIVATE KEY")
+            if (privKeyPem.Label == "OPENSSH PRIVATE KEY")
             {
                 // Assume no passphrase
                 privKey = PickySshPrivateKey.FromPem(privKeyPem, "");
@@ -67,20 +67,20 @@ switch (action)
             }
 
             PickySshTime validAfter = PickySshTime.Now();
-            PickySshTime validBefore = PickySshTime.FromTimestamp(validAfter.Timestamp() + 999999);
+            PickySshTime validBefore = PickySshTime.FromTimestamp(validAfter.Timestamp + 999999);
 
             Console.WriteLine($"SSH Certificate generation with comment '{comment}'.");
-            Console.WriteLine($"Valid after {validAfter.Year()}-{validAfter.Month()}-{validAfter.Day()}");
-            Console.WriteLine($"Valid until {validBefore.Year()}-{validBefore.Month()}-{validBefore.Day()}");
+            Console.WriteLine($"Valid after {validAfter.Year}-{validAfter.Month}-{validAfter.Day}");
+            Console.WriteLine($"Valid until {validBefore.Year}-{validBefore.Month}-{validBefore.Day}");
 
             var builder = PickySshCert.Builder();
-            builder.SetCertKeyType(PickySshCertKeyType.RsaSha2_256V01);
-            builder.SetKey(pubKey);
-            builder.SetCertType(PickySshCertType.Host);
-            builder.SetValidAfter(validAfter);
-            builder.SetValidBefore(validBefore);
-            builder.SetSignatureKey(privKey);
-            builder.SetComment(comment);
+            builder.CertKeyType = PickySshCertKeyType.RsaSha2_256V01;
+            builder.Key = pubKey;
+            builder.CertType = PickySshCertType.Host;
+            builder.ValidAfter = validAfter;
+            builder.ValidBefore = validBefore;
+            builder.SignatureKey = privKey;
+            builder.Comment = comment;
             PickySshCert cert = builder.Build();
 
             Console.WriteLine($"Write to {certOutPath}");
