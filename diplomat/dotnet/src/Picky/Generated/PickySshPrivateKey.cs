@@ -320,6 +320,29 @@ public partial class PickySshPrivateKey: IDisposable
     }
 
     /// <summary>
+    /// Marks this object as moved into Rust side.
+    /// </summary>
+    public void MarkAsMoved()
+    {
+        unsafe
+        {
+            if (_inner == null)
+            {
+                throw new ObjectDisposedException("PickySshPrivateKey");
+            }
+            _inner = null;
+        }
+    }
+
+    /// <summary>
+    /// Restores unmanaged ressource handle to this object.
+    /// </summary>
+    public unsafe void RestoreHandle(Raw.PickySshPrivateKey* handle)
+    {
+        _inner = handle;
+    }
+
+    /// <summary>
     /// Destroys the underlying object immediately.
     /// </summary>
     public void Dispose()

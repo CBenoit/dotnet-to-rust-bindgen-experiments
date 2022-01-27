@@ -352,6 +352,29 @@ public partial class PickySshCertBuilder: IDisposable
     }
 
     /// <summary>
+    /// Marks this object as moved into Rust side.
+    /// </summary>
+    public void MarkAsMoved()
+    {
+        unsafe
+        {
+            if (_inner == null)
+            {
+                throw new ObjectDisposedException("PickySshCertBuilder");
+            }
+            _inner = null;
+        }
+    }
+
+    /// <summary>
+    /// Restores unmanaged ressource handle to this object.
+    /// </summary>
+    public unsafe void RestoreHandle(Raw.PickySshCertBuilder* handle)
+    {
+        _inner = handle;
+    }
+
+    /// <summary>
     /// Destroys the underlying object immediately.
     /// </summary>
     public void Dispose()
