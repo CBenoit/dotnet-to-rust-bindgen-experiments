@@ -17,7 +17,7 @@ fn bindings_csharp() -> Result<(), Error> {
 
     Generator::new(config, picky_ffi::ffi_pem())
         .add_overload_writer(DotNet::new())
-        .write_file("csharp/Picky.cs")?;
+        .write_file("dotnet/Picky.cs")?;
 
     Ok(())
 }
