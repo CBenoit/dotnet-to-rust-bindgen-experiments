@@ -1,0 +1,15 @@
+/home/auroden/git/com-interop/dotnet/sample/bin/Debug/net6.0/ComClient
+/home/auroden/git/com-interop/dotnet/sample/bin/Debug/net6.0/ComClient.deps.json
+/home/auroden/git/com-interop/dotnet/sample/bin/Debug/net6.0/ComClient.runtimeconfig.json
+/home/auroden/git/com-interop/dotnet/sample/bin/Debug/net6.0/ComClient.dll
+/home/auroden/git/com-interop/dotnet/sample/bin/Debug/net6.0/ref/ComClient.dll
+/home/auroden/git/com-interop/dotnet/sample/bin/Debug/net6.0/ComClient.pdb
+/home/auroden/git/com-interop/dotnet/sample/obj/Debug/net6.0/ComClient.csproj.AssemblyReference.cache
+/home/auroden/git/com-interop/dotnet/sample/obj/Debug/net6.0/ComClient.GeneratedMSBuildEditorConfig.editorconfig
+/home/auroden/git/com-interop/dotnet/sample/obj/Debug/net6.0/ComClient.AssemblyInfoInputs.cache
+/home/auroden/git/com-interop/dotnet/sample/obj/Debug/net6.0/ComClient.AssemblyInfo.cs
+/home/auroden/git/com-interop/dotnet/sample/obj/Debug/net6.0/ComClient.csproj.CoreCompileInputs.cache
+/home/auroden/git/com-interop/dotnet/sample/obj/Debug/net6.0/ComClient.dll
+/home/auroden/git/com-interop/dotnet/sample/obj/Debug/net6.0/ref/ComClient.dll
+/home/auroden/git/com-interop/dotnet/sample/obj/Debug/net6.0/ComClient.pdb
+/home/auroden/git/com-interop/dotnet/sample/obj/Debug/net6.0/ComClient.genruntimeconfig.cache

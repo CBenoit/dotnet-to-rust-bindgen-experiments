@@ -1,0 +1,10 @@
+[package]
+name = "com_test"
+version = "0.1.0"
+edition = "2018"
+
+[lib]
+crate-type = ["dylib"]
+
+[dependencies]
+com = { version = "0.6.0", features = ["production"] }
