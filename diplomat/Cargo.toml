@@ -7,6 +7,9 @@ publish = false
 [lib]
 name = "picky"
 crate-type = ["staticlib", "cdylib"]
+doc = false
+test = false
+doctest = false
 
 [dependencies]
 picky = { git = "https://github.com/Devolutions/picky-rs", rev = "cc4bdc6", features = ["ssh", "time_conversion"] }
