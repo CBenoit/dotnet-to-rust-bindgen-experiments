@@ -358,11 +358,11 @@ pub mod ffi {
         }
 
         pub fn get_valid_after(&self) -> Box<PickySshTime> {
-            Box::new(PickySshTime(self.0.valid_after.clone()))
+            Box::new(PickySshTime(self.0.valid_after))
         }
 
         pub fn get_valid_before(&self) -> Box<PickySshTime> {
-            Box::new(PickySshTime(self.0.valid_before.clone()))
+            Box::new(PickySshTime(self.0.valid_before))
         }
 
         pub fn get_signature_key(&self) -> Box<PickySshPublicKey> {
