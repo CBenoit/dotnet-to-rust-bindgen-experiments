@@ -1,0 +1,17 @@
+[package]
+name = "picky-c-api"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[lib]
+name = "picky"
+crate-type = ["staticlib", "cdylib"]
+doc = false
+test = false
+doctest = false
+
+[dependencies]
+picky = { git = "https://github.com/Devolutions/picky-rs", rev = "cc4bdc6", features = ["ssh", "time_conversion"] }
+ffi_helpers = { version = "0.3", git = "https://github.com/Michael-F-Bryan/ffi_helpers", rev = "4a1d448" }
+anyhow = "1"
